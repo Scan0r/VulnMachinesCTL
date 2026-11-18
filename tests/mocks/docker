@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+printf '%s\n' "$*" >> "$MOCK_LOG"
+case " $* " in
+  *' compose version '*) echo 'Docker Compose version v2.30.0' ;;
+  *' info '*) echo 'mock daemon' ;;
+  *' config --format json'*) printf '{"services":{"vampi":{"ports":[{"host_ip":"127.0.0.1","published":"5002","target":5000}]}}}\n' ;;
+  *' config --services '*) printf 'vampi\nvampi-secure\n' ;;
+  *' config --images '*) echo 'example/mock-image:local' ;;
+  *' ps -q '*) [[ "${MOCK_RUNNING:-0}" == 1 ]] && echo mock-container || true ;;
+  *' ps -a '*) : ;;
+  *' ps --filter '*) : ;;
+  *' ps -aq '*) : ;;
+  *' network ls -q '*) : ;;
+  *' volume ls -q '*) : ;;
+  *' image inspect '*) exit 1 ;;
+  *' exec -T '*) exit 0 ;;
+  *' exec '*) : ;;
+  *) : ;;
+esac

@@ -1,0 +1,26 @@
+# Local installations and generated application state
+vuln-labs/
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.sample
+*.log
+*.tmp
+*.new
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+
+# Private credentials and key material
+*.pem
+*.key
+*.p12
+*.pfx
+*.kdbx
+id_rsa*
+id_ed25519*
+*.credentials
+*secrets*.json
+*secrets*.yaml
+*secrets*.yml

@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  shell-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Bash syntax
+        run: bash -n vulnmachinesctl.sh
+      - name: Check for common secret patterns
+        run: bash tests/check-secrets.sh
+      - name: Check Python helpers
+        run: python3 -m py_compile scripts/hosts-manager.py scripts/proxy-render.py
+      - name: Run CLI command tests
+        run: bash tests/tests.sh

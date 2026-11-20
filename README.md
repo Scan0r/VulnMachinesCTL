@@ -1,6 +1,6 @@
 # VulnMachinesCTL — Vulnerable Machines & Docker Pentesting Lab Manager
 
-**VulnMachinesCTL** is an open-source Bash CLI for deploying and managing **15 intentionally vulnerable machines and Docker pentesting labs**, focused on **web application security, API security, OWASP training, and ethical hacking**. Install, start, inspect, stop, and remove vulnerable lab environments with Docker Compose v2.
+**VulnMachinesCTL** is an open-source Bash CLI for deploying and managing **16 intentionally vulnerable machines and Docker pentesting labs**, focused on **web application security, API security, OWASP training, and ethical hacking**. Install, start, inspect, stop, and remove vulnerable lab environments with Docker Compose v2.
 
 > **Scope:** The project manages containerized vulnerable applications and services, not full virtual machines. “Vulnerable machines” describes the practice targets, not a VM hypervisor.
 
@@ -13,7 +13,7 @@ Instead of manually cloning and configuring vulnerable Docker applications, run 
 
 ## Features
 
-- 15 curated labs covering web, REST APIs, GraphQL, OAuth 2.0, and more.
+- 16 curated labs covering web, REST APIs, GraphQL, OAuth 2.0, and more.
 - Automatic repository cloning, Compose configuration, and dependency setup.
 - Detached startup with HTTP readiness polling and an **extra 2-second delay before opening Firefox**.
 - Configurable browser, readiness timeout, and port bindings.
@@ -118,6 +118,7 @@ This proxy mode is designed for **Linux/Kali**, not Docker Desktop on Windows or
 | `oauth2` | [Vulnerable OAuth 2.0 Apps](https://github.com/koenbuyens/Vulnerable-OAuth-2.0-Applications) | OAuth 2.0 flows |
 | `vampi` | [VAmPI](https://github.com/erev0s/VAmPI) | REST API security |
 | `vapi` | [vAPI](https://github.com/roottusk/vapi) | OWASP API Top 10 |
+| `vulndap` | [vuLnDAP](https://github.com/digininja/vuLnDAP) | LDAP-based web application, business-logic flaws (Go; GPL-3.0 upstream) |
 | `vulnbank` | [VulnBank](https://github.com/Commando-X/vuln-bank) | JWT, BOLA, GraphQL, business logic |
 | `vulnerableapp` | [OWASP VulnerableApp](https://github.com/SasanLabs/VulnerableApp) | Web vulnerability training |
 | `vulnlab` | [Yavuzlar VulnLab](https://github.com/Yavuzlar/VulnLab) | Multiple web vulnerability categories |
@@ -156,7 +157,7 @@ All commands below assume you are in the repository root. Use `./vulnmachinesctl
 ./vulnmachinesctl.sh help
 ```
 
-### `list` — list all 15 available labs
+### `list` — list all 16 available labs
 
 ```bash
 ./vulnmachinesctl.sh list
@@ -325,7 +326,7 @@ bash tests/check-secrets.sh
 shellcheck vulnmachinesctl.sh
 ```
 
-GitHub Actions runs syntax, secret-pattern, and CLI command tests on pull requests and pushes. **These checks do not deploy all 15 labs.** Live Docker deployment tests should be performed separately on a disposable, isolated machine.
+GitHub Actions runs syntax, secret-pattern, and CLI command tests on pull requests and pushes. **These checks do not deploy all 16 labs.** Live Docker deployment tests should be performed separately on a disposable, isolated machine.
 
 ## Contributing
 
@@ -338,3 +339,16 @@ See [LICENSE](LICENSE). The upstream lab projects have their own independent lic
 ## Related search terms
 
 This project is relevant to **vulnerable machines**, **Docker pentesting labs**, **vulnerable web applications**, **API security labs**, **OWASP labs**, and **penetration testing lab management**. It is not a virtual-machine provisioning tool.
+
+### vuLnDAP — LDAP business-logic lab
+
+The 16th lab, [digininja/vuLnDAP](https://github.com/digininja/vuLnDAP), is a deliberately vulnerable Go web application with an embedded LDAP server. The original project is **GPL-3.0 licensed**, and its source code remains in the ignored local lab directory rather than being redistributed by VulnMachinesCTL. The generated Dockerfile builds from that upstream source.
+
+```bash
+./vulnmachinesctl.sh install vulndap
+./vulnmachinesctl.sh up vulndap
+./vulnmachinesctl.sh status
+./vulnmachinesctl.sh down vulndap
+```
+
+Direct access: `http://127.0.0.1:9093` (configurable with `VULNDAP_PORT`). With the local Caddy proxy enabled, use `http://vulndap`. The embedded LDAP listener stays inside the container. This integration has not yet been validated with a live Docker build; upstream's legacy Go dependency resolution may require additional adjustments.
